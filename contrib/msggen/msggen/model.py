@@ -1,5 +1,6 @@
 from typing import List, Union, Optional
 import logging
+from copy import copy
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,7 @@ class FieldName:
             "type": "item_type"
         }.get(self.name, self.name)
 
-        name = name.replace(' ', '_').replace('-', '_')
+        name = name.replace(' ', '_').replace('-', '_').replace('[]', '')
         return name
 
     def __str__(self):
@@ -320,11 +321,6 @@ class ArrayField(Field):
             itemtype, dims=dims, path=path, description=js.get("description", "")
         )
 
-    def normalized(self):
-        # Strip the '[]' that we use to signal an array. The name
-        # itself doesn't need this.
-        return Field.normalized(self)[:-2]
-
 
 class Command:
     def __init__(self, name, fields):
@@ -334,6 +330,16 @@ class Command:
     def __str__(self):
         fieldnames = ",".join([f.path.split(".")[-1] for f in self.fields])
         return f"Command[name={self.name}, fields=[{fieldnames}]]"
+
+
+InvoiceLabelField = PrimitiveField("string", None, None)
+
+# Override fields with manually managed types, fieldpath -> field mapping
+overrides = {
+    'Invoice.label': InvoiceLabelField,
+    'DelInvoice.label': InvoiceLabelField,
+    'ListInvoices.label': InvoiceLabelField,
+}
 
 
 def parse_doc(command, js) -> Union[CompositeField, Command]:
