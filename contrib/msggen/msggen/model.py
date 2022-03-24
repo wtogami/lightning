@@ -134,8 +134,12 @@ class CompositeField(Field):
                 logger.warning(f"Unmanaged {fpath}, it is deprecated")
                 continue
 
-            if 'oneOf' in ftype:
-                field = UnionField.from_js(ftype, fpath)
+            if fpath in overrides:
+                field = copy(overrides[fpath])
+                field.path = fpath
+                field.description = desc
+                if isinstance(field, ArrayField):
+                    field.itemtype.path = fpath
 
             elif "type" not in ftype:
                 logger.warning(f"Unmanaged {fpath}, it doesn't have a type")
@@ -333,12 +337,19 @@ class Command:
 
 
 InvoiceLabelField = PrimitiveField("string", None, None)
-
+DatastoreKeyField = ArrayField(itemtype=PrimitiveField("string", None, None), dims=1, path=None, description=None)
+InvoiceExposeprivatechannelsField = PrimitiveField("boolean", None, None)
+PayExclude = ArrayField(itemtype=PrimitiveField("string", None, None), dims=1, path=None, description=None)
 # Override fields with manually managed types, fieldpath -> field mapping
 overrides = {
     'Invoice.label': InvoiceLabelField,
     'DelInvoice.label': InvoiceLabelField,
     'ListInvoices.label': InvoiceLabelField,
+    'Datastore.key': DatastoreKeyField,
+    'DelDatastore.key': DatastoreKeyField,
+    'ListDatastore.key': DatastoreKeyField,
+    'Invoice.exposeprivatechannels': InvoiceExposeprivatechannelsField,
+    'Pay.exclude': PayExclude,
 }
 
 

@@ -25,6 +25,7 @@ overrides = {
     'ListPeers.peers[].channels[].features[]': "string",
     'ListFunds.channels[].state': 'ChannelState',
     'ListTransactions.transactions[].type[]': None,
+    'Invoice.exposeprivatechannels': None,
 }
 
 # A map of schema type to rust primitive types.
@@ -43,6 +44,8 @@ typemap = {
     'float': 'f32',
     'utxo': 'Utxo',
     'feerate': 'Feerate',
+    'outpoint': 'Outpoint',
+    'outputdesc': 'OutputDesc',
 }
 
 header = f"""#![allow(non_camel_case_types)]
