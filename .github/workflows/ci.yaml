@@ -80,4 +80,4 @@ jobs:
           key: cln-build-dev${{matrix.DEVELOPER}}-compat${{matrix.COMPAT}}-exp${{matrix.EXPERIMENTAL_FEATURES}}
       - name: List builds
         run: |
-          ls -lhaR build
+          ls -lha
