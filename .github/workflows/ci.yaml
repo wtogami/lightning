@@ -26,7 +26,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: build/dev${DEVELOPER}/compat${COMPAT}/exp${EXPERIMENTAL_FEATURES}
-          key: cln-build-dev${{matrix.DEVELOPER}}-compat${{matrix.COMPAT}}-exp${{matrix.EXPERIMENTAL_FEA
+          key: cln-build-dev${{matrix.DEVELOPER}}-compat${{matrix.COMPAT}}-exp${{matrix.EXPERIMENTAL_FEATURES}}
 
       - name: Set up Python 3.7
         uses: actions/setup-python@v2
@@ -50,7 +50,7 @@ jobs:
         run: |
           bash -x .github/scripts/build.sh
           make install PREFIX=build/dev${DEVELOPER}/compat${COMPAT}/exp${EXPERIMENTAL_FEATURES}
-TURES}}
+
   test:
     name: Run tests against pre-built CLNs
     needs: build-cln
