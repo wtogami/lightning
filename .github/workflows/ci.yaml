@@ -22,6 +22,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.0.0
 
+      - name: Cache CLN
+        uses: actions/cache@v2
+        with:
+          path: build/dev${DEVELOPER}/compat${COMPAT}/exp${EXPERIMENTAL_FEATURES}
+          key: cln-build-dev${{matrix.DEVELOPER}}-compat${{matrix.COMPAT}}-exp${{matrix.EXPERIMENTAL_FEA
+
       - name: Set up Python 3.7
         uses: actions/setup-python@v2
         with:
@@ -30,6 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           bash -x .github/scripts/setup.sh
+
       - name: Build
         env:
           VALGRIND: ${{ matrix.VALGRIND }}
@@ -43,11 +50,7 @@ jobs:
         run: |
           bash -x .github/scripts/build.sh
           make install PREFIX=build/dev${DEVELOPER}/compat${COMPAT}/exp${EXPERIMENTAL_FEATURES}
-      - name: Cache CLN
-        uses: actions/cache@v2
-        with:
-          path: build/dev${DEVELOPER}/compat${COMPAT}/exp${EXPERIMENTAL_FEATURES}
-          key: cln-build-dev${{matrix.DEVELOPER}}-compat${{matrix.COMPAT}}-exp${{matrix.EXPERIMENTAL_FEATURES}}
+TURES}}
   test:
     name: Run tests against pre-built CLNs
     needs: build-cln
@@ -69,15 +72,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.0.0
 
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
       - name: Cache CLN
         uses: actions/cache@v2
         with:
           path: build/dev${DEVELOPER}/compat${COMPAT}/exp${EXPERIMENTAL_FEATURES}
           key: cln-build-dev${{matrix.DEVELOPER}}-compat${{matrix.COMPAT}}-exp${{matrix.EXPERIMENTAL_FEATURES}}
+
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
       - name: List builds
         run: |
           ls -lha
