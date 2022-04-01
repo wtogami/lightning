@@ -25,7 +25,7 @@ jobs:
       - name: Cache CLN
         uses: actions/cache@v2
         with:
-          path: build/dev${DEVELOPER}/compat${COMPAT}/exp${EXPERIMENTAL_FEATURES}
+          path: build/dev${{ matrix.DEVELOPER }}/compat${{ matrix.COMPAT} }/exp${{ matrix.EXPERIMENTAL_FEATURES }}
           key: cln-build-dev${{matrix.DEVELOPER}}-compat${{matrix.COMPAT}}-exp${{matrix.EXPERIMENTAL_FEATURES}}
 
       - name: Set up Python 3.7
