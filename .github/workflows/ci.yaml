@@ -84,4 +84,4 @@ jobs:
           python-version: 3.7
       - name: List builds
         run: |
-          ls -lha
+          ls -lhaR build
