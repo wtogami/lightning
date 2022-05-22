@@ -1,0 +1,37 @@
+.TH "LIGHTNING-SENDONIONMESSAGE" "7" "" "" "lightning-sendonionmessage"
+.SH NAME
+lightning-sendonionmessage - low-level command to send an onion message
+.SH SYNOPSIS
+
+\fB(WARNING: experimental-onion-messages only)\fR
+
+
+\fBsendonionmessage\fR \fIfirst_id\fR \fIblinding\fR \fIhops\fR
+
+.SH DESCRIPTION
+
+The \fBsendonionmessage\fR RPC command can be used to send a message via
+the lightning network\.  These are currently used by \fIoffers\fR to request
+and receive invoices\.
+
+
+\fIhops\fR is an array of json objects: \fIid\fR as a public key of the node,
+and \fItlv\fR contains a hexidecimal TLV to include\.
+
+.SH RETURN VALUE
+
+On success, an empty object is returned\.
+
+.SH AUTHOR
+
+Rusty Russell \fI<rusty@rustcorp.com.au\fR> is mainly responsible\.
+
+.SH SEE ALSO
+
+\fBlightning-fetchinvoice\fR(7), \fBlightning-offer\fR(7)\.
+
+.SH RESOURCES
+
+Main web site: \fIhttps://github.com/ElementsProject/lightning\fR
+
+\" SHA256STAMP:335eb7ef0e43d39a0b88d35e6fc1975487bfafed4c3aa2388e9fc733a19d7325
